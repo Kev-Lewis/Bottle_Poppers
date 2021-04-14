@@ -1,9 +1,11 @@
-class Play extends Phaser.Scene {
+class Play extends Phaser.Scene 
+{
     constructor() {
         super("playScene");
     }
 
-    preload() {
+    preload() 
+    {
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
@@ -17,12 +19,13 @@ class Play extends Phaser.Scene {
         });
     }
 
-    create() {
+    create() 
+    {
         // place starfield
         this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
 
-        // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        // gray UI background
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xA9A9A9).setOrigin(0, 0);
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -82,21 +85,44 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+        
+        // timer variable
+        this.countdownTimer = this.game.settings.gameTimer;
+        
+        // display timer
+        let timerConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.timerRight = this.add.text(borderUISize*15 + borderPadding*1.7, borderUISize + borderPadding*2, this.game.settings.gameTimer, timerConfig);
+        this.updateTimer();
     }
 
-    update() {
+    update() 
+    {
         // check key input for restart
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) 
+        {
             this.scene.restart();
         }
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) 
+        {
             this.scene.start("menuScene");
         }
 
         this.starfield.tilePositionX -= starSpeed;
 
-        if(!this.gameOver) {
+        if(!this.gameOver) 
+        {
             // update rocket
             this.p1Rocket.update();
 
@@ -107,21 +133,28 @@ class Play extends Phaser.Scene {
         }
         
         // check collisions
-        if(this.checkCollision(this.p1Rocket, this.ship03)) {
+        if(this.checkCollision(this.p1Rocket, this.ship03)) 
+        {
             this.p1Rocket.reset()
             this.shipExplode(this.ship03);
         }
-        if(this.checkCollision(this.p1Rocket, this.ship02)) {
+        if(this.checkCollision(this.p1Rocket, this.ship02)) 
+        {
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
         }
-        if(this.checkCollision(this.p1Rocket, this.ship01)) {
+        if(this.checkCollision(this.p1Rocket, this.ship01)) 
+        {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+
+        // update timer
+        this.timerRight.text = this.countdownTimer/1000;
     }
 
-    checkCollision(rocket, ship) {
+    checkCollision(rocket, ship) 
+    {
         // simple AABB checking
         if( rocket.x < ship.x + ship.width &&
             rocket.x + rocket.width > ship.x &&
@@ -133,7 +166,8 @@ class Play extends Phaser.Scene {
             }
     }
 
-    shipExplode(ship) {
+    shipExplode(ship) 
+    {
         // temporarily hide ship
         ship.alpha = 0;
         
@@ -152,5 +186,16 @@ class Play extends Phaser.Scene {
 
         // play sound
         this.sound.play('sfx_explosion');
+    }
+
+    updateTimer()
+    {
+        if(this.countdownTimer > 0)
+        {
+            this.clock = this.time.delayedCall(1000, () => {
+                this.countdownTimer -= 1000;
+                this.updateTimer();
+            }, null, this);
+        }
     }
 }
