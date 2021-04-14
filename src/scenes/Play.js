@@ -77,14 +77,6 @@ class Play extends Phaser.Scene
 
         // GAME OVER flag
         this.gameOver = false;
-
-        // play clock
-        scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }, null, this);
         
         // timer variable
         this.countdownTimer = this.game.settings.gameTimer;
@@ -104,6 +96,14 @@ class Play extends Phaser.Scene
         }
         this.timerRight = this.add.text(borderUISize*15 + borderPadding*1.7, borderUISize + borderPadding*2, this.game.settings.gameTimer, timerConfig);
         this.updateTimer();
+        
+        // play clock
+        scoreConfig.fixedWidth = 0;
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+        }, null, this);
     }
 
     update() 
