@@ -24,8 +24,6 @@ class Play extends Phaser.Scene
         // place starfield
         this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
 
-        // gray UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xA9A9A9).setOrigin(0, 0);
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -68,12 +66,12 @@ class Play extends Phaser.Scene
             color: '#843605',
             align: 'right',
             padding: {
-                top: 5,
-                bottom: 5,
+                top: borderPadding/2,
+                bottom: 1,
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(borderPadding*3, 0, this.p1Score, scoreConfig);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -89,12 +87,12 @@ class Play extends Phaser.Scene
             color: '#843605',
             align: 'left',
             padding: {
-                top: 5,
-                bottom: 5,
+                top: borderPadding/2,
+                bottom: 1,
             },
             fixedWidth: 100
         }
-        this.timerRight = this.add.text(borderUISize*15 + borderPadding*1.7, borderUISize + borderPadding*2, this.game.settings.gameTimer, timerConfig);
+        this.timerRight = this.add.text(game.config.width - borderPadding*12.4, 0, this.game.settings.gameTimer, timerConfig);
         this.updateTimer();
         
         // play clock
