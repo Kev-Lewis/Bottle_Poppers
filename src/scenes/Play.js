@@ -18,6 +18,8 @@ class Play extends Phaser.Scene
             startFrame: 0,
             endFrame: 9
         });
+
+        this.load.atlas('CapAnimation', './assets/CapAnimation.png', './assets/CapAnimation.json');
     }
 
     create() 
@@ -31,8 +33,8 @@ class Play extends Phaser.Scene
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
 
-        // add rocket (player 1)
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
+        // add bottle and cap
+        this.BottlePopper = new BottleCap(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'CapAnimation', 'CapFrame2').setOrigin(0.5, 0);
 
         // add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*2, 'spaceship', 0, 30, 1).setOrigin(0, 0);
@@ -122,8 +124,8 @@ class Play extends Phaser.Scene
 
         if(!this.gameOver) 
         {
-            // update rocket
-            this.p1Rocket.update();
+            // update Bottle
+            this.BottlePopper.update();
 
             // update spaceships (x3)
             this.ship01.update();
@@ -132,19 +134,19 @@ class Play extends Phaser.Scene
         }
         
         // check collisions
-        if(this.checkCollision(this.p1Rocket, this.ship03)) 
+        if(this.checkCollision(this.BottlePopper, this.ship03)) 
         {
-            this.p1Rocket.reset()
+            this.BottlePopper.reset()
             this.shipExplode(this.ship03);
         }
-        if(this.checkCollision(this.p1Rocket, this.ship02)) 
+        if(this.checkCollision(this.BottlePopper, this.ship02)) 
         {
-            this.p1Rocket.reset();
+            this.BottlePopper.reset();
             this.shipExplode(this.ship02);
         }
-        if(this.checkCollision(this.p1Rocket, this.ship01)) 
+        if(this.checkCollision(this.BottlePopper, this.ship01)) 
         {
-            this.p1Rocket.reset();
+            this.BottlePopper.reset();
             this.shipExplode(this.ship01);
         }
 
@@ -152,13 +154,13 @@ class Play extends Phaser.Scene
         this.timerRight.text = this.countdownTimer/1000;
     }
 
-    checkCollision(rocket, ship) 
+    checkCollision(BottleCap, ship) 
     {
         // simple AABB checking
-        if( rocket.x < ship.x + ship.width &&
-            rocket.x + rocket.width > ship.x &&
-            rocket.y < ship.y + ship.height &&
-            rocket.height + rocket.y > ship.y) {
+        if( BottleCap.x < ship.x + ship.width &&
+            BottleCap.x + BottleCap.width > ship.x &&
+            BottleCap.y < ship.y + ship.height &&
+            BottleCap.height + BottleCap.y > ship.y) {
                 return true;
             } else {
                 return false;

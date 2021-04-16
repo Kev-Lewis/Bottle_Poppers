@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // load audio
-        this.load.audio('sfx_select', './assets/blip_select12.wav');
+        this.load.audio('menu_noise', './assets/MenuScreenNoise.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
 
@@ -20,43 +20,48 @@ class Menu extends Phaser.Scene {
 
         // add menu screen
         this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame1');
+
+        // menu screen animation variable
+        this.animationPlayed = 0;
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT) && this.animationPlayed == 0) {
             // normal mode
-            this.clock = this.time.delayedCall(250, () => {
+            this.animationPlayed = 1;
+            this.sound.play('menu_noise');
+            this.clock = this.time.delayedCall(400, () => {
                 this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame2');
-                this.clock = this.time.delayedCall(250, () => {
+                this.clock = this.time.delayedCall(400, () => {
                     this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame3');
-                    this.clock = this.time.delayedCall(250, () => {
+                    this.clock = this.time.delayedCall(400, () => {
                         this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame4');
-                        this.clock = this.time.delayedCall(250, () => {
+                        this.clock = this.time.delayedCall(400, () => {
                             game.settings = {
                                 spaceshipSpeed: 3,
                                 gameTimer: 60000
                             }
-                            this.sound.play('sfx_select');
                             this.scene.start('playScene');
                         }, null, this);
                     }, null, this);
                 }, null, this);
             }, null, this);
         }
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.animationPlayed == 0) {
             // hard mode
-            this.clock = this.time.delayedCall(250, () => {
+            this.animationPlayed = 1;
+            this.sound.play('menu_noise');
+            this.clock = this.time.delayedCall(400, () => {
                 this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame2');
-                this.clock = this.time.delayedCall(250, () => {
+                this.clock = this.time.delayedCall(400, () => {
                     this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame3');
-                    this.clock = this.time.delayedCall(250, () => {
+                    this.clock = this.time.delayedCall(400, () => {
                         this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame4');
-                        this.clock = this.time.delayedCall(250, () => {
+                        this.clock = this.time.delayedCall(400, () => {
                             game.settings = {
                                 spaceshipSpeed: 4,
                                 gameTimer: 45000
                             }
-                            this.sound.play('sfx_select');
                             this.scene.start('playScene');
                         }, null, this);
                     }, null, this);
