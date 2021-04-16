@@ -6,7 +6,7 @@ class Spaceship extends Phaser.GameObjects.Sprite
         scene.add.existing(this);                                  // add to existing scene
         this.points = pointValue;                                  // store pointValue
         this.moveSpeed = game.settings.spaceshipSpeed;             // pixels per frame
-        this.direction = Phaser.Math.Between(1, 2);                                        // randomize direction
+        this.direction = Phaser.Math.Between(1, 2);                // randomize direction
     }
 
     update() 
