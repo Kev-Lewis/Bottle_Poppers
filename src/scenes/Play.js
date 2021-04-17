@@ -1,3 +1,5 @@
+"use strict";
+
 class Play extends Phaser.Scene 
 {
     constructor() {
@@ -9,7 +11,7 @@ class Play extends Phaser.Scene
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('background', './assets/BottlePoppersBG.png');
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {
@@ -18,28 +20,33 @@ class Play extends Phaser.Scene
             startFrame: 0,
             endFrame: 9
         });
-
+        
+        // load Cap animations
         this.load.atlas('CapAnimation', './assets/CapAnimation.png', './assets/CapAnimation.json');
+
+        // load Hand animations
+        this.load.atlas('HandAnimation', './assets/HandAnimation.png', './assets/HandAnimation.json');
     }
 
     create() 
     {
-        // place starfield
-        this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
+        // place background
+        this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+
+        // add bottle and cap
+        this.BottlePopper = new BottleCap(this, game.config.width/2 + 1, game.config.height - borderUISize - borderPadding, 'CapAnimation', 'CapFrame2').setOrigin(0.5, 0);
+        this.Hand = new Hand(this, game.config.width/2, game.config.height - borderUISize - borderPadding*4, 'HandAnimation', 'HandFrame1').setOrigin(0.5, 0);
+
+        // add spaceship (x3)
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*2, 'spaceship', 0, 30, 1).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'spaceship', 0, 20, 1).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*2, 'spaceship', 0, 10, 1).setOrigin(0, 0);
 
         // black borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
-
-        // add bottle and cap
-        this.BottlePopper = new BottleCap(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'CapAnimation', 'CapFrame2').setOrigin(0.5, 0);
-
-        // add spaceship (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*2, 'spaceship', 0, 30, 1).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'spaceship', 0, 20, 1).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*2, 'spaceship', 0, 10, 1).setOrigin(0, 0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -120,12 +127,13 @@ class Play extends Phaser.Scene
             this.scene.start("menuScene");
         }
 
-        this.starfield.tilePositionX -= starSpeed;
+        this.background.tilePositionX -= starSpeed;
 
         if(!this.gameOver) 
         {
             // update Bottle
             this.BottlePopper.update();
+            this.Hand.update();
 
             // update spaceships (x3)
             this.ship01.update();
@@ -136,17 +144,20 @@ class Play extends Phaser.Scene
         // check collisions
         if(this.checkCollision(this.BottlePopper, this.ship03)) 
         {
-            this.BottlePopper.reset()
+            this.BottlePopper.reset();
+            this.Hand.reset();
             this.shipExplode(this.ship03);
         }
         if(this.checkCollision(this.BottlePopper, this.ship02)) 
         {
             this.BottlePopper.reset();
+            this.Hand.reset();
             this.shipExplode(this.ship02);
         }
         if(this.checkCollision(this.BottlePopper, this.ship01)) 
         {
             this.BottlePopper.reset();
+            this.Hand.reset();
             this.shipExplode(this.ship01);
         }
 

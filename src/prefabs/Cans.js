@@ -1,3 +1,5 @@
+"use strict";
+
 class Spaceship extends Phaser.GameObjects.Sprite 
 {
     constructor(scene, x, y, texture, frame, pointValue, direction) 

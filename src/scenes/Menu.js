@@ -1,3 +1,5 @@
+"use strict";
+
 class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
@@ -7,7 +9,7 @@ class Menu extends Phaser.Scene {
         // load audio
         this.load.audio('menu_noise', './assets/MenuScreenNoise.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('cap_pop', './assets/CapPop.wav');
 
         // load menu screen asset
         this.load.atlas('MenuScreen', './assets/BottlePlayScreen.png', './assets/BottlePlayScreen.json');
