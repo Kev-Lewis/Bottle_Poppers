@@ -8,7 +8,9 @@ class Menu extends Phaser.Scene {
     preload() {
         // load audio
         this.load.audio('menu_noise', './assets/MenuScreenNoise.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
+        this.load.audio('CanHit1', './assets/CanHit1.wav');
+        this.load.audio('CanHit2', './assets/CanHit2.wav');
+        this.load.audio('CanHit3', './assets/CanHit3.wav');
         this.load.audio('cap_pop', './assets/CapPop.wav');
 
         // load menu screen asset

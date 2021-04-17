@@ -27,6 +27,7 @@ class BottleCap extends Phaser.GameObjects.Sprite {
         // fire button
         if(keyF.isDown && !this.isFiring) {
             this.isFiring = true;
+            this.alpha = 1;
             this.CapPop.play();  // play sfx
         }
         // if fired, move the bottle cap up
@@ -81,6 +82,7 @@ class BottleCap extends Phaser.GameObjects.Sprite {
     // reset cap to "ground"
     reset() 
     {
+        this.alpha = 0;
         this.isFiring = false;
         this.counter2 = 0;
         this.y = game.config.height - borderUISize - borderPadding;

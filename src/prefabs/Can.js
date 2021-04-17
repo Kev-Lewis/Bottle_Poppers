@@ -45,7 +45,6 @@ class Can extends Phaser.GameObjects.Sprite
         {
             this.hitBool = false;
             this.reset();
-            console.log('this worked');
         }
         else if (this.hitBool == true && this.counter <= 60 && this.direction == 2)
         {
@@ -57,7 +56,6 @@ class Can extends Phaser.GameObjects.Sprite
         {
             this.hitBool = false;
             this.reset();
-            console.log('this worked');
         }
 
 

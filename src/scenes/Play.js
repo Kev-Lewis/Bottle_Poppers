@@ -12,19 +12,11 @@ class Play extends Phaser.Scene
         this.load.image('can1', './assets/Can1.png');
         this.load.image('can2', './assets/Can2.png');
         this.load.image('background', './assets/BottlePoppersBG.png');
-
-        // load spritesheet
-        this.load.spritesheet('explosion', './assets/explosion.png', {
-            frameWidth: 64,
-            frameHeight: 32,
-            startFrame: 0,
-            endFrame: 9
-        });
         
-        // load Cap animations
+        // load cap animations
         this.load.atlas('CapAnimation', './assets/CapAnimation.png', './assets/CapAnimation.json');
 
-        // load Hand animations
+        // load hand animations
         this.load.atlas('HandAnimation', './assets/HandAnimation.png', './assets/HandAnimation.json');
     }
 
@@ -35,6 +27,7 @@ class Play extends Phaser.Scene
 
         // add bottle and cap
         this.BottlePopper = new BottleCap(this, game.config.width/2 + 1, game.config.height - borderUISize - borderPadding, 'CapAnimation', 'CapFrame2').setOrigin(0.5, 0);
+        this.BottlePopper.alpha = 0;
         this.Hand = new Hand(this, game.config.width/2, game.config.height - borderUISize - borderPadding*4, 'HandAnimation', 'HandFrame1').setOrigin(0.5, 0);
 
         // add cans (x3)
@@ -101,6 +94,9 @@ class Play extends Phaser.Scene
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart,(<-) for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        // random sound selector
+        this.soundSelect = 1;
     }
 
     update() 
@@ -131,19 +127,19 @@ class Play extends Phaser.Scene
         }
         
         // check collisions
-        if(this.checkCollision(this.BottlePopper, this.can3)) 
+        if(this.checkCollision(this.BottlePopper, this.can3, this.Hand)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
             this.canHit(this.can3);
         }
-        if(this.checkCollision(this.BottlePopper, this.can2)) 
+        if(this.checkCollision(this.BottlePopper, this.can2, this.Hand)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
             this.canHit(this.can2);
         }
-        if(this.checkCollision(this.BottlePopper, this.can1)) 
+        if(this.checkCollision(this.BottlePopper, this.can1, this.Hand)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
@@ -154,15 +150,17 @@ class Play extends Phaser.Scene
         this.timerRight.text = this.countdownTimer/1000;
     }
 
-    checkCollision(BottleCap, can) 
+    checkCollision(BottleCap, can, Hand) 
     {
         // simple AABB checking
         if( BottleCap.x < can.x + can.width - 10 &&
             BottleCap.x + BottleCap.width - 26 > can.x &&
             BottleCap.y < can.y + can.height - 20 &&
             BottleCap.height + BottleCap.y > can.y) {
+                BottleCap.x = Hand.x - 1;
                 return true;
             } else {
+                BottleCap.x = Hand.x - 1;
                 return false;
             }
     }
@@ -174,7 +172,20 @@ class Play extends Phaser.Scene
         this.scoreLeft.text = this.p1Score;
 
         // play sound
-        this.sound.play('sfx_explosion');
+        this.soundSelect = Phaser.Math.Between(1, 3);
+        if (this.soundSelect == 1)
+        {
+            this.sound.play('CanHit1');
+        }
+        else if (this.soundSelect == 2)
+        {
+            this.sound.play('CanHit2');
+        }
+        else if (this.soundSelect == 3)
+        {
+            this.sound.play('CanHit3');
+        }
+        
 
         //reset can
         can.direction = Phaser.Math.Between(1, 2);
