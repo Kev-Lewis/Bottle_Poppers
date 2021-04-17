@@ -40,7 +40,7 @@ class Menu extends Phaser.Scene {
                         this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame4');
                         this.clock = this.time.delayedCall(400, () => {
                             game.settings = {
-                                spaceshipSpeed: 3,
+                                canSpeed: 3,
                                 gameTimer: 60000
                             }
                             this.scene.start('playScene');
@@ -61,7 +61,7 @@ class Menu extends Phaser.Scene {
                         this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame4');
                         this.clock = this.time.delayedCall(400, () => {
                             game.settings = {
-                                spaceshipSpeed: 4,
+                                canSpeed: 4,
                                 gameTimer: 45000
                             }
                             this.scene.start('playScene');

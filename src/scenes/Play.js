@@ -9,8 +9,8 @@ class Play extends Phaser.Scene
     preload() 
     {
         // load images/tile sprites
-        this.load.image('rocket', './assets/rocket.png');
-        this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('can1', './assets/Can1.png');
+        this.load.image('can2', './assets/Can2.png');
         this.load.image('background', './assets/BottlePoppersBG.png');
 
         // load spritesheet
@@ -37,10 +37,10 @@ class Play extends Phaser.Scene
         this.BottlePopper = new BottleCap(this, game.config.width/2 + 1, game.config.height - borderUISize - borderPadding, 'CapAnimation', 'CapFrame2').setOrigin(0.5, 0);
         this.Hand = new Hand(this, game.config.width/2, game.config.height - borderUISize - borderPadding*4, 'HandAnimation', 'HandFrame1').setOrigin(0.5, 0);
 
-        // add spaceship (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*2, 'spaceship', 0, 30, 1).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'spaceship', 0, 20, 1).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*2, 'spaceship', 0, 10, 1).setOrigin(0, 0);
+        // add cans (x3)
+        this.can1 = new Can(this, game.config.width + borderUISize*6, borderUISize*2, 'can1', 0, 5, 1).setOrigin(0, 0);
+        this.can2 = new Can(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'can2', 0, 3, 2).setOrigin(0, 0);
+        this.can3 = new Can(this, game.config.width, borderUISize*6 + borderPadding*2, 'can1', 0, 1, 3).setOrigin(0, 0);
 
         // black borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
@@ -53,17 +53,6 @@ class Play extends Phaser.Scene
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-
-        // animation config
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', {
-                start: 0,
-                end: 9,
-                first: 0
-            }),
-            frameRate: 30
-        });
 
         // initialize score
         this.p1Score = 0;
@@ -107,9 +96,9 @@ class Play extends Phaser.Scene
         
         // play clock
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        this.clock = this.time.delayedCall(game.settings.gameTimer + 60, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart,(<-) for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
     }
@@ -135,70 +124,61 @@ class Play extends Phaser.Scene
             this.BottlePopper.update();
             this.Hand.update();
 
-            // update spaceships (x3)
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
+            // update cans (x3)
+            this.can1.update();
+            this.can2.update();
+            this.can3.update();
         }
         
         // check collisions
-        if(this.checkCollision(this.BottlePopper, this.ship03)) 
+        if(this.checkCollision(this.BottlePopper, this.can3)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
-            this.shipExplode(this.ship03);
+            this.canHit(this.can3);
         }
-        if(this.checkCollision(this.BottlePopper, this.ship02)) 
+        if(this.checkCollision(this.BottlePopper, this.can2)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
-            this.shipExplode(this.ship02);
+            this.canHit(this.can2);
         }
-        if(this.checkCollision(this.BottlePopper, this.ship01)) 
+        if(this.checkCollision(this.BottlePopper, this.can1)) 
         {
             this.BottlePopper.reset();
             this.Hand.reset();
-            this.shipExplode(this.ship01);
+            this.canHit(this.can1);
         }
 
         // update timer
         this.timerRight.text = this.countdownTimer/1000;
     }
 
-    checkCollision(BottleCap, ship) 
+    checkCollision(BottleCap, can) 
     {
         // simple AABB checking
-        if( BottleCap.x < ship.x + ship.width &&
-            BottleCap.x + BottleCap.width > ship.x &&
-            BottleCap.y < ship.y + ship.height &&
-            BottleCap.height + BottleCap.y > ship.y) {
+        if( BottleCap.x < can.x + can.width - 10 &&
+            BottleCap.x + BottleCap.width - 26 > can.x &&
+            BottleCap.y < can.y + can.height - 20 &&
+            BottleCap.height + BottleCap.y > can.y) {
                 return true;
             } else {
                 return false;
             }
     }
 
-    shipExplode(ship) 
-    {
-        // temporarily hide ship
-        ship.alpha = 0;
-        
-        // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-        boom.anims.play('explode');             // play explode animation
-        boom.on('animationcomplete', () => {    // callback after anim completes
-            ship.direction = Phaser.Math.Between(1, 2);
-            ship.reset();                       // reset ship position
-            ship.alpha = 1;                     // make ship visible again
-            boom.destroy();                     // remove explosion sprite
-        });
-        
+    canHit(can) 
+    {  
         // score add and repaint
-        this.p1Score += ship.points;
+        this.p1Score += can.points;
         this.scoreLeft.text = this.p1Score;
 
         // play sound
         this.sound.play('sfx_explosion');
+
+        //reset can
+        can.direction = Phaser.Math.Between(1, 2);
+        can.hit();
     }
 
     updateTimer()
