@@ -35,7 +35,7 @@ class Play extends Phaser.Scene
         this.can2 = new Can(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'can2', 0, 3, 2).setOrigin(0, 0);
         this.can3 = new Can(this, game.config.width, borderUISize*6 + borderPadding*2, 'can1', 0, 1, 3).setOrigin(0, 0);
 
-        // black borders
+        // borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
@@ -58,7 +58,7 @@ class Play extends Phaser.Scene
             color: '#FFFFFF',
             align: 'right',
             padding: {
-                top: borderPadding/2,
+                top: borderPadding - 5,
                 bottom: 1,
             },
             fixedWidth: 100
@@ -79,7 +79,7 @@ class Play extends Phaser.Scene
             color: '#FFFFFF',
             align: 'left',
             padding: {
-                top: borderPadding/2,
+                top: borderPadding - 5,
                 bottom: 1,
             },
             fixedWidth: 100
@@ -94,6 +94,21 @@ class Play extends Phaser.Scene
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart,(<-) for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        // game title
+        let gameConfig = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            backgroundColor: '#000001',
+            color: '#FFFFFF',
+            align: 'left',
+            padding: {
+                top: borderPadding - 5,
+                bottom: 1,
+            },
+            fixedWidth: 200
+        }
+        this.titleMiddle = this.add.text(game.config.width/2 - 100, 0, 'Bottle Poppers!', gameConfig);
 
         // random sound selector
         this.soundSelect = 1;
