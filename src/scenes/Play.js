@@ -35,7 +35,7 @@ class Play extends Phaser.Scene
         this.can2 = new Can(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding, 'can2', 0, 3, 2).setOrigin(0, 0);
         this.can3 = new Can(this, game.config.width, borderUISize*6 + borderPadding*2, 'can1', 0, 1, 3).setOrigin(0, 0);
 
-        // borders
+        // add borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x000001).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000001).setOrigin(0, 0);
@@ -71,7 +71,7 @@ class Play extends Phaser.Scene
         // timer variable
         this.countdownTimer = this.game.settings.gameTimer;
         
-        // display timer
+        // display and update timer
         let timerConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -141,8 +141,10 @@ class Play extends Phaser.Scene
             this.scene.start("menuScene");
         }
 
+        // move the background
         this.background.tilePositionX -= bgSpeed;
 
+        // update assets as long as the game is not over
         if(!this.gameOver) 
         {
             // update Bottle
@@ -196,11 +198,11 @@ class Play extends Phaser.Scene
 
     canHit(can) 
     {  
-        // score add and repaint
+        // add score and update score text
         this.p1Score += can.points;
         this.scoreLeft.text = this.p1Score;
 
-        // play sound
+        // play sound randomly
         this.soundSelect = Phaser.Math.Between(1, 3);
         if (this.soundSelect == 1)
         {
@@ -218,13 +220,14 @@ class Play extends Phaser.Scene
             can.moveSpeed += 0.1;
         }
         
-        //reset can
+        //reset can + direction
         can.direction = Phaser.Math.Between(1, 2);
         can.hit();
     }
 
     updateTimer()
     {
+        // update timer until the game ends
         if (this.countdownTimer > 0)
         {
             this.clock = this.time.delayedCall(1000, () => {

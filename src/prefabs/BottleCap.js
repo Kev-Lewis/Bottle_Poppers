@@ -9,10 +9,10 @@ class BottleCap extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         this.isFiring = false;                              // track bottle firing status
         this.moveSpeed = 2;                                 // pixels per frame
-        this.CapPop = scene.sound.add('cap_pop');     // add rocket sfx
-        this.currentFrame = 1;
-        this.counter = 0;
-        this.counter2 = 0;
+        this.CapPop = scene.sound.add('cap_pop');           // add cap popping sfx
+        this.currentFrame = 1;                              // variable holding the current frame of the cap animation
+        this.counter = 0;                                   // counter used in the code
+        this.counter2 = 0;                                  // 2nd counter used in the code
     }
 
     update() {
@@ -24,12 +24,14 @@ class BottleCap extends Phaser.GameObjects.Sprite {
                 this.x += this.moveSpeed;
             }
         }
+
         // fire button
         if(keyF.isDown && !this.isFiring) {
             this.isFiring = true;
             this.alpha = 1;
             this.CapPop.play();  // play sfx
         }
+
         // if fired, move the bottle cap up
         if(this.isFiring && this.y >= borderPadding) {
             if (this.counter2 <= 50)
@@ -42,6 +44,7 @@ class BottleCap extends Phaser.GameObjects.Sprite {
             }
         }
 
+        // update the cap frame at a set interval to create the spinning animation
         if (this.counter < 25)
         {
             this.counter += 1;
@@ -59,6 +62,7 @@ class BottleCap extends Phaser.GameObjects.Sprite {
 
     updateFrame()
     {
+        // check which is current frame and change it, then set the counter back to zero
         if (this.currentFrame == 0)
         {
             this.setFrame('CapFrame2');
@@ -79,9 +83,9 @@ class BottleCap extends Phaser.GameObjects.Sprite {
         }
     }
 
-    // reset cap to "ground"
     reset() 
     {
+        // reset cap to "ground"
         this.alpha = 0;
         this.isFiring = false;
         this.counter2 = 0;

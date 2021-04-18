@@ -34,6 +34,8 @@ class Menu extends Phaser.Scene {
             // normal mode
             this.animationPlayed = 1;
             this.sound.play('menu_noise');
+
+            // start playing bottle animation
             this.clock = this.time.delayedCall(400, () => {
                 this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame2');
                 this.clock = this.time.delayedCall(400, () => {
@@ -45,16 +47,21 @@ class Menu extends Phaser.Scene {
                                 canSpeed: 3,
                                 gameTimer: 60000
                             }
+
+                            // start game
                             this.scene.start('playScene');
                         }, null, this);
                     }, null, this);
                 }, null, this);
             }, null, this);
         }
+
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.animationPlayed == 0) {
             // hard mode
             this.animationPlayed = 1;
             this.sound.play('menu_noise');
+            
+            // start playing bottle animation
             this.clock = this.time.delayedCall(400, () => {
                 this.add.sprite(game.config.width/2, game.config.height/2, 'MenuScreen', 'BottleFrame2');
                 this.clock = this.time.delayedCall(400, () => {
@@ -66,6 +73,8 @@ class Menu extends Phaser.Scene {
                                 canSpeed: 4,
                                 gameTimer: 45000
                             }
+
+                            // start game
                             this.scene.start('playScene');
                         }, null, this);
                     }, null, this);
