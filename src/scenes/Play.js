@@ -127,7 +127,7 @@ class Play extends Phaser.Scene
             this.scene.start("menuScene");
         }
 
-        this.background.tilePositionX -= starSpeed;
+        this.background.tilePositionX -= bgSpeed;
 
         if(!this.gameOver) 
         {
@@ -191,14 +191,17 @@ class Play extends Phaser.Scene
         if (this.soundSelect == 1)
         {
             this.sound.play('CanHit1');
+            can.moveSpeed += 0.01;
         }
         else if (this.soundSelect == 2)
         {
             this.sound.play('CanHit2');
+            can.moveSpeed += 0.05;
         }
         else if (this.soundSelect == 3)
         {
             this.sound.play('CanHit3');
+            can.moveSpeed += 0.1;
         }
         
 

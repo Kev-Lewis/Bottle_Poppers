@@ -57,8 +57,6 @@ class Can extends Phaser.GameObjects.Sprite
             this.hitBool = false;
             this.reset();
         }
-
-
     }
 
     // position reset
