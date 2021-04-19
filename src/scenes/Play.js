@@ -122,7 +122,7 @@ class Play extends Phaser.Scene
             },
             fixedWidth: 200
         }
-        this.titleMiddle = this.add.text(game.config.width/2 - 85, 0, 'Bottle Poppers!', gameConfig);
+        this.titleMiddle = this.add.text(game.config.width/2 - 80, 0, 'Bottle Poppers!', gameConfig);
 
         // random sound selector
         this.soundSelect = 1;
