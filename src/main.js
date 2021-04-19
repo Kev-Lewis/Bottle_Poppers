@@ -24,6 +24,14 @@ All sprite assets were pictures that were taken and edited by me. The water bott
 The sounds were all recorded by me using an aquafina bottle and the soda cans to make the sounds.
 The background is an edited photo of my ceiling, since it was the only 3D thing that I could make loop well as a background.
 The background music was made by me in the garageband app.
+
+OTHER DETAILS
+-------------
+When modding this game, I wanted to try and use real-life 3D assets rather than 2D assets
+since I had never done that before, as well as try to use those 3D assets in a small little animated loop
+to simulate movement when being used. I wanted to try and attempt something unique and something that I haven't tried before.
+This was my first time using Phaser and Javascript so I was able to learn a lot from this assignment, and I think that it was a 
+good experience overall.
 */
 
 "use strict";
