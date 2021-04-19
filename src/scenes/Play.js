@@ -215,7 +215,7 @@ class Play extends Phaser.Scene
         this.p1Score += can.points;
         this.scoreLeft.text = this.p1Score;
 
-        // play sound randomly
+        // play sound randomly and increase speed incrementally
         this.soundSelect = Phaser.Math.Between(1, 3);
         if (this.soundSelect == 1)
         {
