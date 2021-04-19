@@ -126,6 +126,9 @@ class Play extends Phaser.Scene
 
         // random sound selector
         this.soundSelect = 1;
+
+        // music var
+        this.playing = 0;
     }
 
     update() 
@@ -179,6 +182,16 @@ class Play extends Phaser.Scene
 
         // update timer
         this.timerRight.text = this.countdownTimer/1000;
+
+        // music loop
+        if (this.playing == 0 && this.countdownTimer > 5000)
+        {
+            this.playing = 1;
+            this.sound.play('BGmusic');
+            this.clock = this.time.delayedCall(9000, () => {
+                this.playing = 0;    
+            }, null, this);
+        }
     }
 
     checkCollision(BottleCap, can, Hand) 

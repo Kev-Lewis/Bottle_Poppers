@@ -12,6 +12,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('CanHit2', './assets/CanHit2.wav');
         this.load.audio('CanHit3', './assets/CanHit3.wav');
         this.load.audio('cap_pop', './assets/CapPop.wav');
+        this.load.audio('BGmusic', './assets/BGmusic.wav');
 
         // load menu screen asset
         this.load.atlas('MenuScreen', './assets/BottlePlayScreen.png', './assets/BottlePlayScreen.json');
