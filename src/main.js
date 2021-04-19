@@ -9,13 +9,30 @@ Completion Time:  Around 12 hours
 MOD/POINTS BREAKDOWN
 --------------------
 1.) Redesign the game's artwork, UI, and sound to change theme/aesthetic (60)
+
 2.) Speed for individual Cans increases incrementally each time that they are hit (5)
+- After a Can is hit, the speed will very slowly increase by different speeds depending on which Can it is. 
+**Play.js 218-234**
+
 3.) Randomized direction movement for Cans upon start of game and each time the Can is hit (5)
+- When starting the game, a random number is generated that determines which direction the Cans will move. Similarly,
+it randomizes direction when the Can is hit and returns to original position.
+**Can.js 11** + **Play.js 237**
+
 4.) One of 3 SFX is played randomly when the can is hit (5)
+- A random number, 1 - 3, is generated and then plays a sound corresponding to that number when a Can is hit.
+**Play.js 218-234**
+
 5.) Displays the time remaining on screen (10)
+**Play.js 71-88** + **Play.js 184** + **Play.js 241-251**
+
 6.) Title Screen animation, bottle firing animated sprite, cap projectile animated sprite (10)
+
 7.) Upon the Can getting hit, the Can spins off the screen **new 'explosion' animation** (5)
+**Can.js 39-61**
+
 8.) Added background music to play scene (5)
+**Play.js 186-194**
 
 TOTAL: 105
 
