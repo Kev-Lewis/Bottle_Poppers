@@ -22,6 +22,7 @@ CITATIONS
 ---------
 All sprite assets were pictures that were taken and edited by me. The water bottle is an aquafina bottle and the soda cans are Pepsi and A&W.
 The sounds were all recorded by me using an aquafina bottle and the soda cans to make the sounds.
+The background is an edited photo of my ceiling, since it was the only 3D thing that I could make loop well as a background.
 The background music was made by me in the garageband app.
 */
 
